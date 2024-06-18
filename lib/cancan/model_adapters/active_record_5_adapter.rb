@@ -51,7 +51,7 @@ module CanCan
         if self.class.version_greater_or_equal?('5.2.0')
           connection = @model_class.send(:connection)
           collector = Arel::Collectors::SubstituteBinds.new(connection, Arel::Collectors::SQLString.new)
-          Rails.logger.debug collector
+          binding.pry
           connection.visitor.accept(node, collector).value
         else
           @model_class.send(:connection).visitor.compile(node)
