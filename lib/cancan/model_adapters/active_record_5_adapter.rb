@@ -48,14 +48,7 @@ module CanCan
 
       def visit_nodes(node)
         # Rails 5.2 adds a BindParam node that prevents the visitor method from properly compiling the SQL query
-        if self.class.version_greater_or_equal?('5.2.0')
-          connection = @model_class.send(:connection)
-          collector = Arel::Collectors::SubstituteBinds.new(connection, Arel::Collectors::SQLString.new)
-          binding.pry
-          connection.visitor.accept(node, collector).value
-        else
-          @model_class.send(:connection).visitor.compile(node)
-        end
+        @model_class.send(:connection).visitor.compile(node)
       end
     end
   end
